@@ -348,3 +348,4 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+/Sim_Control_UI/Innovent_SimControl_Service/appsettings.Development.json

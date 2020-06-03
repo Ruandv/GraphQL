@@ -1,0 +1,10 @@
+﻿{
+  "profiles": {
+    "Innovent_SimControl_Service": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
