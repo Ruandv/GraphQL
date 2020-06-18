@@ -1,12 +1,12 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Worker">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <UserSecretsId>dotnet-Innovent_SimControl_Service-ACD2FFD8-0CAD-4286-83B7-5AAE46BE29B3</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="GraphQL" Version="2.4.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.5" />
+  <PackageReference Include="GraphQL" Version="2.4.0" />
     <PackageReference Include="GraphQL.Client" Version="3.1.2" />
     <PackageReference Include="GraphQL.Client.Serializer.Newtonsoft" Version="3.1.2" />
     <PackageReference Include="NETCore.MailKit" Version="2.0.3" />
@@ -15,11 +15,6 @@
     <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
     <PackageReference Include="Serilog.Sinks.File" Version="4.1.0" />
     <PackageReference Include="Twilio" Version="5.42.0" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.4" />
-    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="3.1.4" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Innovent_BL\Innovent_BL.csproj" />
-  </ItemGroup>
 </Project>

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Innovent_SimControl_Service
+namespace Innovent_BL.EmailClient
 {
 
     public class EmailConfigOptions

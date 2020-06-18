@@ -1,7 +1,8 @@
 using System;
-using System.Configuration;
 using System.IO;
-using Innovent_SimControl_Service.SmsClients;
+using Innovent_BL;
+using Innovent_BL.EmailClient;
+using Innovent_BL.SmsClient;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;

@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.30104.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Innovent_SimControl_Service", "Innovent_SimControl_Service\Innovent_SimControl_Service.csproj", "{31723F63-27DC-4DD2-9F47-99FFFB0BB39C}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GUI", "GUI\GUI.csproj", "{12642582-AAD8-461F-ACC1-8C2A4F8D5B80}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innovent_BL", "Innovent_BL\Innovent_BL.csproj", "{7A6A1147-1042-49F1-9E3B-0A2EB66DF68F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{31723F63-27DC-4DD2-9F47-99FFFB0BB39C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31723F63-27DC-4DD2-9F47-99FFFB0BB39C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31723F63-27DC-4DD2-9F47-99FFFB0BB39C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12642582-AAD8-461F-ACC1-8C2A4F8D5B80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12642582-AAD8-461F-ACC1-8C2A4F8D5B80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12642582-AAD8-461F-ACC1-8C2A4F8D5B80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12642582-AAD8-461F-ACC1-8C2A4F8D5B80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A6A1147-1042-49F1-9E3B-0A2EB66DF68F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A6A1147-1042-49F1-9E3B-0A2EB66DF68F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A6A1147-1042-49F1-9E3B-0A2EB66DF68F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A6A1147-1042-49F1-9E3B-0A2EB66DF68F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -9,7 +9,9 @@ using GraphQL.Client.Serializer.Newtonsoft;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Options;
-using Innovent_SimControl_Service.SmsClients;
+using Innovent_BL.EmailClient;
+using Innovent_BL;
+using Innovent_BL.SmsClient;
 
 namespace Innovent_SimControl_Service
 {
@@ -46,7 +48,7 @@ namespace Innovent_SimControl_Service
                     {
 
                         var content = new GraphQLRequest(string.Format(queryList[0], contactNumber));
-                        var res = await cl.SendQueryAsync<Innovent_SimControl_Service.Data>(content);
+                        var res = await cl.SendQueryAsync<Data>(content);
                         if (res.Data.Sims.Edges.Any())
                         {
                             var data = res.Data.Sims.Edges.First().Node;
@@ -65,7 +67,6 @@ namespace Innovent_SimControl_Service
                     cl.Dispose();
                     if (lowData.Length > 1)
                     {
-                        _logger.LogInformation("\t\tSending report...");
                         var mm = new Message(_emailOptions.Value.AdministratorEmails, "Sim Control - Low Data Report", "The following users has low data : \r\n" + lowData);
                         _emailClient.SendEmail(mm);
                         _logger.LogInformation("\t\tSending SMS...");

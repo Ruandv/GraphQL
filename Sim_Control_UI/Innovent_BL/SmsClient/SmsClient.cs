@@ -3,7 +3,7 @@ using Microsoft.Extensions.Options;
 using Twilio;
 using Twilio.Rest.Api.V2010.Account;
 
-namespace Innovent_SimControl_Service.SmsClients
+namespace Innovent_BL.SmsClient
 {
     public interface ISmsClient
     {
@@ -22,6 +22,7 @@ namespace Innovent_SimControl_Service.SmsClients
             if (_smsConfig.Value.AccountSid == "")
             {
                 _logger.LogInformation("SMS settings are not configured correctly");
+                return;
             }
             TwilioClient.Init(_smsConfig.Value.AccountSid, _smsConfig.Value.AuthToken);
         }
@@ -31,7 +32,7 @@ namespace Innovent_SimControl_Service.SmsClients
         {
             if (_smsConfig.Value.AccountSid != "")
             {
-                var message = MessageResource.Create(
+                MessageResource.Create(
                 body: msg,
                 from: new Twilio.Types.PhoneNumber(_smsConfig.Value.FromNumber),
                 to: new Twilio.Types.PhoneNumber(_smsConfig.Value.ToNumber)

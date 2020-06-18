@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Innovent_SimControl_Service
+namespace Innovent_BL.EmailClient
 {
     public interface IEmailSender
     {
@@ -21,13 +21,24 @@ namespace Innovent_SimControl_Service
         public EmailSender(IOptions<EmailConfigOptions> emailConfig, ILogger<EmailSender> logger)
         {
             _logger = logger;
+            if (emailConfig.Value.SmtpServer == "")
+            {
+                _logger.LogInformation("Email settings are not configured correctly");
+                return;
+            }
             _emailConfig = emailConfig;
         }
 
         public void SendEmail(Message message)
         {
-            var emailMessage = CreateEmailMessage(message);
+            if (_emailConfig == null)
+            {
+                _logger.LogInformation("Email settings are not configured correctly");
+                return;
+            }
 
+            _logger.LogInformation("\t\tSending report...");
+            var emailMessage = CreateEmailMessage(message);
             Send(emailMessage);
         }
 

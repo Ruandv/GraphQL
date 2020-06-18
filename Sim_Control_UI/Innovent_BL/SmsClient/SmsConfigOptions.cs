@@ -1,4 +1,4 @@
-﻿namespace Innovent_SimControl_Service
+﻿namespace Innovent_BL.SmsClient
 {
     public class SmsConfigOptions
     {
