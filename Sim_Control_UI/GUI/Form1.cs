@@ -7,8 +7,10 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -29,6 +31,8 @@ namespace GUI
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            InnoventNotification.Visible = true;
+            InnoventNotification.Icon = new System.Drawing.Icon("sync.ico");
             this.Text = "Innovent Sim Notification";
             this.textBox1.Text = _configOptions.Value.ContactNumber.ToString();
             this.comboBox1.SelectedIndex = _configOptions.Value.Delay;
@@ -42,45 +46,52 @@ namespace GUI
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             AddOrUpdateAppSetting("Innovent_Settings:Delay", comboBox1.SelectedIndex);
+            timer1.Interval = int.Parse(comboBox1.SelectedItem.GetValue().ToString()) * 60000;
         }
 
         private async void button1_Click(object sender, EventArgs e)
         {
             this.Hide();
-            InnoventSim.Visible = true;
-            timer1.Interval = 60000 * int.Parse(comboBox1.SelectedItem.GetValue().ToString());
             timer1.Enabled = true;
-            await getResult();
+            notifyUser(null, null);
+        }
+        private async void notifyUser(object sender, EventArgs e)
+        {
+            var result = await getResult(_configOptions.Value.ContactNumber);
+            InnoventNotification.BalloonTipText = String.Format("Contact Number :{0}\r\nData:{1}mb", result.ContactNumber, result.DataBalance);
+            InnoventNotification.ShowBalloonTip(2000);
         }
 
-        private async Task getResult()
+        private async Task<SimResult> getResult(string contactNumber)
         {
+            SimResult msg = new SimResult();
             var queryList = new List<string>();
             queryList.Add("query {{  sims(msisdn:\"{0}\", first:20) {{edges {{node{{contactNumber:msisdn description active network {{name}}airtimeBalance dataBalanceInMb smsBalance  }}}}}}}}");
 
             var cl = new GraphQLHttpClient(_configOptions.Value.GraphUrl, new NewtonsoftJsonSerializer());
             cl.HttpClient.DefaultRequestHeaders.Add("simcontrol-api-key", _configOptions.Value.ApiKey);
 
-            foreach (string contactNumber in new[] { textBox1.Text })
+            var content = new GraphQLRequest(string.Format(queryList[0], contactNumber));
+            var res = await cl.SendQueryAsync<Data>(content);
+            if (res.Data.Sims.Edges.Any())
             {
-                var content = new GraphQLRequest(string.Format(queryList[0], contactNumber));
-                var res = await cl.SendQueryAsync<Data>(content);
-                if (res.Data.Sims.Edges.Any())
-                {
-                    var data = res.Data.Sims.Edges.First().Node;
-                    _logger.LogInformation("\r\n\r\n\r\n");
-                    _logger.LogInformation("\t\tDescription : " + data.Description);
-                    _logger.LogInformation("\t\tNumber : " + data.ContactNumber);
-                    _logger.LogInformation("\t\tActive: " + data.Active);
-                    _logger.LogInformation("\t\tAirtime Balance : " + data.AirtimeBalance);
-                    _logger.LogInformation("\t\tData Balance: " + data.DataBalanceInMb);
-
-                    InnoventSim.BalloonTipText = string.Format("{0} \r\n {1} \r\n {2} Mb\r\n", data.ContactNumber, data.Description, data.DataBalanceInMb); ;
-                    InnoventSim.ShowBalloonTip(2000);
-                }
+                var data = res.Data.Sims.Edges.First().Node;
+                _logger.LogInformation("\r\n\r\n\r\n");
+                _logger.LogInformation("\t\tDescription : " + data.Description);
+                _logger.LogInformation("\t\tNumber : " + data.ContactNumber);
+                _logger.LogInformation("\t\tActive: " + data.Active);
+                _logger.LogInformation("\t\tAirtime Balance : " + data.AirtimeBalance);
+                _logger.LogInformation("\t\tData Balance: " + data.DataBalanceInMb);
+                msg.Active = data.Active;
+                msg.AirtimeBalance = data.AirtimeBalance;
+                msg.DataBalance = data.DataBalanceInMb;
+                msg.ContactNumber = data.ContactNumber;
+                msg.Description = data.Description;
             }
             cl.Dispose();
+            return msg;
         }
+
         public static void AddOrUpdateAppSetting<T>(string key, T value)
         {
             try
@@ -108,14 +119,76 @@ namespace GUI
                 Console.WriteLine("Error writing app settings");
             }
         }
-        private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            notifyUser(sender, e);
+        }
+
+        private void notifyIcon1_MouseDoubleClick_1(object sender, MouseEventArgs e)
         {
             this.Show();
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void InnoventNotification_MouseUp(object sender, MouseEventArgs e)
         {
-            getResult().ConfigureAwait(false);
+            if (e.Button == MouseButtons.Right)
+            {
+                showContextmenu(Screen.PrimaryScreen.WorkingArea.Width - 110, Screen.PrimaryScreen.WorkingArea.Height - 25);
+            }
+        }
+
+        private void showContextmenu(int x, int y)
+        {
+            this.InnoventNotification.ContextMenuStrip = new ContextMenuStrip();
+            this.InnoventNotification.ContextMenuStrip.Items.Add("Query Usage", null, notifyUser);
+            this.InnoventNotification.ContextMenuStrip.Items.Add("View Report", null, showReport);
+            this.InnoventNotification.ContextMenuStrip.Items.Add("Quit", null, ExitProgram);
+            this.InnoventNotification.ContextMenuStrip.Show(x, y);
+        }
+
+        private void ExitProgram(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private async void showReport(object sender, EventArgs e)
+        {
+            this.Show();
+            lblResults.Text = "Loading...";
+            var results = new List<SimResult>();
+            StringBuilder sb2 = new StringBuilder();
+            var template = "<div class='card' style='width: 18rem;'><div class='card-body'><h5 class='card-title'>{0}</h5><div class='card-text'><p><strong>Contact Number :</strong> {1}</p><p><strong>Data Balance :</strong> {2}mb</p></div></div></div>";
+            foreach (string s in _configOptions.Value.ContactNumbers)
+            {
+                var result = await getResult(s);
+                results.Add(result);
+                sb2.Append(String.Format(template, result.Description, result.ContactNumber, result.AirtimeBalance));
+                lblResults.Text = string.Format("Loading {0} of {1}", Array.IndexOf(_configOptions.Value.ContactNumbers, s), _configOptions.Value.ContactNumbers.Length);
+            }
+            if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + "\\DataReport.html"))
+                File.Delete(AppDomain.CurrentDomain.BaseDirectory + "\\DataReport.html");
+
+            var f = new StreamReader(AppDomain.CurrentDomain.BaseDirectory + "\\ReportTemplate.html");
+
+            var sb = new StringBuilder();
+            sb.Append(f.ReadToEnd());
+            sb.Replace("{{cardHolder}}", sb2.ToString());
+            sb.Replace("{{DateTime}}", DateTime.Now.ToString());
+            StreamWriter sw = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + "\\DataReport.html");
+            sw.Write(sb.ToString());
+            sw.Flush();
+            sw.Close();
+            sw.Dispose();
+            OpenWithDefaultProgram(AppDomain.CurrentDomain.BaseDirectory+ "\\DataReport.html");
+        }
+
+        public static void OpenWithDefaultProgram(string path)
+        {
+            Process fileopener = new Process();
+            fileopener.StartInfo.FileName = "explorer";
+            fileopener.StartInfo.Arguments = "\"" + path + "\"";
+            fileopener.Start();
         }
     }
 }

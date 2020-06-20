@@ -7,19 +7,23 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Configuration\appsettings.Development.json" />
     <None Remove="Configuration\appsettings.json" />
+    <None Remove="Configuration\Examples\appsettings.json" />
+    <None Remove="ReportTemplate.html" />
     <None Remove="sync.ico" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Configuration\appsettings.Development.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
     <Content Include="Configuration\appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Configuration\Examples\appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="ReportTemplate.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="sync.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -32,10 +36,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Innovent_BL\Innovent_BL.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Configuration\Examples\" />
   </ItemGroup>
 
 </Project>

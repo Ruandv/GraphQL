@@ -3,6 +3,14 @@ using System.Collections.Generic;
 
 namespace Innovent_BL
 {
+    public class SimResult
+    {
+        public string Description { get; set; }
+        public string ContactNumber { get; set; }
+        public long? AirtimeBalance { get; set; }
+        public long? DataBalance { get; set; }
+        public bool Active { get; set; }
+    }
 
     public class Data
     {

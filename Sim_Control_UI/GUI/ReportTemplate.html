@@ -1,0 +1,49 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Innovent Sim Controller</title>
+	<style>
+		body{
+			background-color: DodgerBlue;			
+		}
+		.flex-container{
+			display: flex;
+			flex-wrap: wrap;
+		
+		}
+
+		.flex-container > .card {
+			margin: 10px;
+			padding: 20px;
+		}
+		
+		.reportHeading{
+			display:flex;
+			justify-content: center;
+		}
+	</style>
+  </head>
+  <body>
+	<div class="reportHeading">
+		<p>This report was generated at {{DateTime}}</p>
+	</div>
+	<div class="flex-container">
+	{{cardHolder}}
+		<!-- <div class="card" style="width: 18rem;"> -->
+		  <!-- <div class="card-body"> -->
+			<!-- <h5 class="card-title">{0}</h5> -->
+			<!-- <div class="card-text">  -->
+				<!-- <p><strong>Contact Number :</strong> {1}</p> -->
+				<!-- <p><strong>Data Balance :</strong> {2}</p> -->
+			<!-- </div> -->
+		  <!-- </div> -->
+		<!-- </div> -->
+	</div> <!-- flex Container -->
+  </body>
+</html>
