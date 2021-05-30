@@ -1,19 +1,19 @@
-using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using GraphQL;
 using GraphQL.Client.Http;
 using GraphQL.Client.Serializer.Newtonsoft;
+using Innovent_BL;
+using Innovent_BL.EmailClient;
+using Innovent_BL.SmsClient;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Extensions.Options;
-using Innovent_BL.EmailClient;
-using Innovent_BL;
-using Innovent_BL.SmsClient;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace Innovent_SimControl_Service
+namespace Innovent_Sim_Manager_Service
 {
     public class Worker : BackgroundService
     {

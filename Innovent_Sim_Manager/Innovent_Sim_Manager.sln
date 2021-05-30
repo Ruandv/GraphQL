@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30104.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Innovent_SimControl_Service", "Innovent_SimControl_Service\Innovent_SimControl_Service.csproj", "{31723F63-27DC-4DD2-9F47-99FFFB0BB39C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Innovent_Sim_Manager_Service", "Innovent_SimControl_Service\Innovent_Sim_Manager_Service.csproj", "{31723F63-27DC-4DD2-9F47-99FFFB0BB39C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GUI", "GUI\GUI.csproj", "{12642582-AAD8-461F-ACC1-8C2A4F8D5B80}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innovent_BL", "Innovent_BL\Innovent_BL.csproj", "{7A6A1147-1042-49F1-9E3B-0A2EB66DF68F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Innovent_BL", "Innovent_BL\Innovent_BL.csproj", "{7A6A1147-1042-49F1-9E3B-0A2EB66DF68F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

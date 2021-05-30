@@ -1,5 +1,3 @@
-using System;
-using System.IO;
 using Innovent_BL;
 using Innovent_BL.EmailClient;
 using Innovent_BL.SmsClient;
@@ -9,8 +7,10 @@ using Serilog;
 using Serilog.Enrichers;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
+using System;
+using System.IO;
 
-namespace Innovent_SimControl_Service
+namespace Innovent_Sim_Manager_Service
 {
     public class Program
     {
